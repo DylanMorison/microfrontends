@@ -1,14 +1,21 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 module.exports = {
-	mode: "development",
-	devServer: {
-		port: 8081
-	},
-    // this plugin will look at whatever files are coming out of our webpack process, find the files names, and add the appropiate script tags automatically to our html page
-	plugins: [
-		new HtmlWebpackPlugin({
-			template: "./public/index.html"
-		})
-	]
+  mode: 'development',
+  devServer: {
+    port: 8081,
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'products',
+      filename: 'remoteEntry.js',
+      exposes: {
+        './ProductsIndex': './src/index',
+      },
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+    }),
+  ],
 };
