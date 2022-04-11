@@ -14,7 +14,7 @@ const devConfig = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			templatle: "./public/index.html"
+			template: "./public/index.html"
 		})
 	]
 };
