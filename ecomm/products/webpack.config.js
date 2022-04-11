@@ -13,7 +13,8 @@ module.exports = {
 			exposes: {
 				// why do this? Bc sometimes the name of our file inside products is only meaningful within its scope
 				"./ProductsIndex": "./src/index"
-			}
+			},
+			shared: ['faker']
 		}),
 		new HtmlWebpackPlugin({
 			template: "./public/index.html"
