@@ -2,5 +2,6 @@
 // it will look in the `remotes` property of the ModuleFederationPlugin, and check
 // if the key of `products` exists.  
 import "products/ProductsIndex";
+import "cart/CartShow"
 
 console.log("Container!");
