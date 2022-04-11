@@ -12,7 +12,7 @@ module.exports = {
 			filename: "remoteEntry.js",
 			exposes: {
 				// why do this? Bc sometimes the name of our file inside products is only meaningful within its scope
-				"./ProductsIndex": "./src/index"
+				"./ProductsIndex": "./src/bootstrap"
 			},
 			shared: ['faker']
 		}),
