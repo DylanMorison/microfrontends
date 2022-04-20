@@ -8,8 +8,6 @@ const MarketingApp = () => {
 		mount(ref.current);
 	});
 
-	console.log("helloooo!!!");
-
 	return <div ref={ref} />;
 };
 
