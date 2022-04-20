@@ -12,7 +12,9 @@ const prodConfig = {
 	mode: "production",
 	output: {
 		// ensure whenever we build files for prod, we will use `[name].[contenthash].js` as a template
-		filename: "[name].[contenthash].js"
+		filename: "[name].[contenthash].js",
+		// used when you need to reference a path within the built webpack files
+		publicPath: "/container/latest/"
 	},
 	plugins: [
 		new ModuleFederationPlugin({
