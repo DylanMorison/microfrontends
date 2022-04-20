@@ -1,0 +1,35 @@
+name: deploy-container
+
+# configures when we want to run this workflow
+on:
+    push:
+        branches:
+            - main
+        paths:
+            # ONLY runs workflow when we make a change inside of container dir
+            - "packages/container/**"
+
+defaults:
+    run:
+        # sets execution environment to inside the container
+        working-directory: packages/container
+
+# You can have multiple jobs, but they run in parallel
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            # we need to take the code inside our repo, and load it into this virtual machine environment
+            - uses: actions/checkout@v2
+            - run: npm install
+            - run: npm run build
+
+            # now that we've build our project, we wana use aws cli
+            # to send the built code over to aws S3
+            - uses: shinyinc/action-aws-cli@v1.2
+            - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  AWS_DEFAULT_REGION: ""
