@@ -3,16 +3,15 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const commonConfig = require("./webpack.common");
 const packageJson = require("../package.json");
 
-// we will set up this environment variable in the cicd pipeline
-// will contain string that tells us where our production application is hosted
-const domain = process.env.PRODUCTION_DOMAIN;
-
 const prodConfig = {
 	// minifies & optimizes all js files when `production` mode is set
 	mode: "production",
 	output: {
 		// ensure whenever we build files for prod, we will use `[name].[contenthash].js` as a template
-		filename: "[name].[contenthash].js"
+		filename: "[name].[contenthash].js",
+		// we set this so different script tags inside our html file will refer to the correct location of all of our javascript files
+		// in this case, we are setting the remotePath so ModuleFederationPlugin knows where to get the remoteEntry.js file
+		publicPath: "/marketing/latest/"
 	},
 	plugins: [
 		new ModuleFederationPlugin({

@@ -24,6 +24,8 @@ jobs:
             - uses: actions/checkout@v2
             - run: npm install
             - run: npm run build
+              env:
+                  PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
 
             # now that we've build our project, we wana use aws cli
             # to send the built code over to aws S3
