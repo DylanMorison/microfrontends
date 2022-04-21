@@ -38,4 +38,10 @@ const prodConfig = {
 
 ### Class Name Colision
 
-Whenever two different microservices are using the same css-in-js library, it is _possible_ that a **className colision** may occur.
+Whenever two different microservices are using the same css-in-js library, it is _possible_ that a **className colision** may occur. Note: This is a big issue that may require debugging, especially with libraries that don't have the `createGenerateClassName` func like `mui` does.
+
+```js
+const generateClassName = createGenerateClassName({
+	productionPrefix: "co"
+});
+```
