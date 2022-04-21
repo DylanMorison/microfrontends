@@ -19,14 +19,19 @@
 
 <img src="./../lecture-pics/53.1.png">
 
-```
-      - uses: shinyinc/action-aws-cli@v1.2
+**Question**: Why are _so many_ different javascript files being sent in prod? For example:
+<img src="./../lecture-pics/72.1.png">
 
-          - uses: shinyinc/action-aws-cli@v1.2
-          - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
-            env:
-              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-              AWS_DEFAULT_REGION: ""
+**Answer**: It is because of the shared modules that we declared. Inside of marketing/config/webpack.prod.js, we have a _bunch_ of shared deps, configed with the
 
+```js
+const prodConfig = {
+  ...,
+	plugins: [
+		new ModuleFederationPlugin({
+			...,
+			shared: packageJson.dependencies // <- if we remove this, we get big bundles of duplicate deps...
+		})
+	]
+};
 ```
