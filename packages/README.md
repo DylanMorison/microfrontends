@@ -69,4 +69,4 @@ const generateClassName = createGenerateClassName({
 ### **Requirement #6**: If different apps need to communicate information about routing, it should be done in as generic a fashion as possible
 
 -   Each app may be using a completely different navigation framework
--   We might swap out or upgrade navigation libraries all the time - shouldn't require a rewrite of the rest of the app
+-   We might swap out or upgrade navigation libraries all the time - shouldn't require a rewrite of the rest of the 
