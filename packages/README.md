@@ -1,4 +1,4 @@
-# Deployment
+# Packages (Big Microfrontend Project)
 
 ## Important Things to Keep in Mind
 
@@ -69,4 +69,19 @@ const generateClassName = createGenerateClassName({
 ### **Requirement #6**: If different apps need to communicate information about routing, it should be done in as generic a fashion as possible
 
 -   Each app may be using a completely different navigation framework
--   We might swap out or upgrade navigation libraries all the time - shouldn't require a rewrite of the rest of the 
+-   We might swap out or upgrade navigation libraries all the time - shouldn't require a rewrite of the rest of the
+
+<hr>
+
+**_Note:_** Routing libraries decide what content to show on the screen. All routing libraries can be brok down into two parts:
+
+1. **_History_**: Object to get and set the current path the user is visiting. There are generally 3 different kinds of **history** objects. (3 diff ways to find current route the user is visiting)
+    1. `Browser History`: Most popular by far. Looks at the path portion of the url (everything after the domain), to figure out what the current path is.
+    2. `Hash History`
+    3. `Memory` or `Abstract History`: Keeps track of current path is memory.
+2. **_Router_**: Shows different content based on the current path.
+
+The most common way to set up routing in a microfrontend project is like so:
+<img src="./../lecture-pics/84.1.png">
+
+The reason for this is simple: We don't want multiple `Browser History` objects trying to change change tha path at the same time. We _only_ want the Container's `Browser History` object making updates to the url.
