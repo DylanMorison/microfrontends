@@ -35,3 +35,7 @@ const prodConfig = {
 	]
 };
 ```
+
+### Class Name Colision
+
+Whenever two different microservices are using the same css-in-js library, it is _possible_ that a **className colision** may occur.
