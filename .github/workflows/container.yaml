@@ -34,7 +34,9 @@ jobs:
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   AWS_DEFAULT_REGION: "us-west-2"
 
-            # TODO: learn more about this build step... what exactly does aws invalidation do?
+            # When we add new files to our bucket, cloudfront automatically picks them up and serves them.
+            # However cloudfront does NOT automatically look at CHANGED files.  To tell cloudfront to ALWAYS use the latest version of a file,
+            # we use cloudfront invalidations.
             - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID}} --paths "/container/latest/index.html"
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
