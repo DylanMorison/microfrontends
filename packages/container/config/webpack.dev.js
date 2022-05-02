@@ -1,27 +1,25 @@
-const { merge } = require("webpack-merge");
-// takes an html file inside our project and injects some script tags inside of it
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const commonConfig = require("./webpack.common");
-const packageJson = require("../package.json");
+const { merge } = require('webpack-merge');
+const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const commonConfig = require('./webpack.common');
+const packageJson = require('../package.json');
 
-// configuration to give webpack when we are in dev mode
 const devConfig = {
-	mode: "development",
-	devServer: {
-		port: 8080,
-		historyApiFallback: {
-			index: "index.html"
-		}
-	},
-	plugins: [
-		new ModuleFederationPlugin({
-			name: "container",
-			remotes: {
-				marketing: "marketing@http://localhost:8081/remoteEntry.js"
-			},
-			shared: packageJson.dependencies
-		})
-	]
+  mode: 'development',
+  devServer: {
+    port: 8080,
+    historyApiFallback: {
+      index: 'index.html',
+    },
+  },
+  plugins: [
+    new ModuleFederationPlugin({
+      name: 'container',
+      remotes: {
+        marketing: 'marketing@http://localhost:8081/remoteEntry.js',
+      },
+      shared: packageJson.dependencies,
+    }),
+  ],
 };
 
 module.exports = merge(commonConfig, devConfig);
