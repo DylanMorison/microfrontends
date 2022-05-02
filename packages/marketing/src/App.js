@@ -11,7 +11,7 @@ import Pricing from "./components/Pricing";
 const generateClassName = createGenerateClassName({
   productionPrefix: "ma",
 });
-
+console.log('test');
 export default ({ history }) => {
   return (
     <div>
