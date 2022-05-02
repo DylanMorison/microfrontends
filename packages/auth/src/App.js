@@ -10,7 +10,7 @@ import SignUp from "./components/Signup";
 const generateClassName = createGenerateClassName({
   productionPrefix: "au",
 });
-console.log('test');
+
 export default ({ history }) => {
   return (
     <div>

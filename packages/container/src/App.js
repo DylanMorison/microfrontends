@@ -12,7 +12,7 @@ import Header from "./components/Header";
 const generateClassName = createGenerateClassName({
   productionPrefix: "co",
 });
-console.log('test');
+
 export default () => {
   return (
     <BrowserRouter>
