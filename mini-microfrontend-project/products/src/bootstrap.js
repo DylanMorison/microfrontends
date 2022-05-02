@@ -1,17 +1,17 @@
 import faker from "faker";
 
 const mount = (el) => {
-	let products = "";
+  let products = "";
 
-	for (let i = 0; i < 5; i++) {
-		const name = faker.commerce.productName();
-		products += `<div>${name}</div>`;
-	}
+  for (let i = 0; i < 5; i++) {
+    const name = faker.commerce.productName();
+    products += `<div>${name}</div>`;
+  }
 
-	el.innerHTML = products;
+  el.innerHTML = products;
 
-	// not great... assumes that an element exists...  needs a refactor...
-	// document.querySelector("#dev-products").innerHTML = products;
+  // not great... assumes that an element exists...  needs a refactor...
+  // document.querySelector("#dev-products").innerHTML = products;
 };
 
 // Context/Situation #1
@@ -21,14 +21,14 @@ const mount = (el) => {
 // we want to immediately render our app into that element
 
 if (process.env.NODE_ENV === "development") {
-	const el = document.querySelector("#dev-products");
+  const el = document.querySelector("#dev-products");
 
-	// Assuming our container doesnt have an element
-	// with id `dev-products`
-	if (el) {
-		// We are probably running in isolation
-		mount(el);
-	}
+  // Assuming our container doesnt have an element
+  // with id `dev-products`
+  if (el) {
+    // We are probably running in isolation
+    mount(el);
+  }
 }
 
 // Context/situation #2

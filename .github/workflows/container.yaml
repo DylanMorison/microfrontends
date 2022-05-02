@@ -2,45 +2,45 @@ name: deploy-container
 
 # configures when we want to run this workflow
 on:
-    push:
-        branches:
-            - main
-        paths:
-            # ONLY runs workflow when we make a change inside of container dir
-            - "packages/container/**"
+  push:
+    branches:
+      - main
+    paths:
+      # ONLY runs workflow when we make a change inside of container dir
+      - "packages/container/**"
 
 defaults:
-    run:
-        # sets execution environment to inside the container
-        working-directory: packages/container
+  run:
+    # sets execution environment to inside the container
+    working-directory: packages/container
 
 # You can have multiple jobs, but they run in parallel
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        steps:
-            # we need to take the code inside our repo, and load it into this virtual machine environment
-            - uses: actions/checkout@v2
-            - run: npm install
-            - run: npm run build
-              env:
-                  PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
+    steps:
+      # we need to take the code inside our repo, and load it into this virtual machine environment
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build
+        env:
+          PRODUCTION_DOMAIN: ${{ secrets.PRODUCTION_DOMAIN }}
 
-            # now that we've build our project, we wana use aws cli
-            # to send the built code over to aws S3
-            - uses: shinyinc/action-aws-cli@v1.2
-            - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
-              env:
-                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  AWS_DEFAULT_REGION: "us-west-2"
+      # now that we've build our project, we wana use aws cli
+      # to send the built code over to aws S3
+      - uses: shinyinc/action-aws-cli@v1.2
+      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-west-2"
 
-            # When we add new files to our bucket, cloudfront automatically picks them up and serves them.
-            # However cloudfront does NOT automatically look at CHANGED files.  To tell cloudfront to ALWAYS use the latest version of a file,
-            # we use cloudfront invalidations.
-            - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID}} --paths "/container/latest/index.html"
-              env:
-                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  AWS_DEFAULT_REGION: "us-west-2"
+      # When we add new files to our bucket, cloudfront automatically picks them up and serves them.
+      # However cloudfront does NOT automatically look at CHANGED files.  To tell cloudfront to ALWAYS use the latest version of a file,
+      # we use cloudfront invalidations.
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID}} --paths "/container/latest/index.html"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-west-2"
